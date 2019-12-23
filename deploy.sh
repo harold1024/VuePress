@@ -13,7 +13,7 @@ git init
 git add -A
 git commit -m 'deploy'
 
-# 如果发布到 https://<USERNAME>.github.io/<REPO>  REPO=github上的项目
+# 如果发布到 https://<USERNAME>.github.io/<REPO>
 git push -f git@github.com:harold1024/VuePress.git master:gh-pages
 
 cd -
