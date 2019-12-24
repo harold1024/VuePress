@@ -43,6 +43,7 @@ VuePress是以Vue驱动的静态网站生成器，是一个由Vue、Vue Router�
 - [NodeJS >= 8](https://nodejs.org/)
 - [yarn](https://yarnpkg.com/lang/en/docs/install/) (可选)
 - nodeJS以及vue基础知识
+- [gitBash here](https://git-scm.com/downloads)
 
 ## 安装
 
@@ -110,7 +111,7 @@ npm run docs:build
 - docs 多了个 .vuepress文件
 :::
 
-### 配置config.js
+### [配置config.js](https://vuepress.vuejs.org/zh/config/)
  
 ```bash
 # 在.vuepress 创建config.js 文件 
@@ -124,7 +125,7 @@ module.exports = {
     ['link', { rel: 'apple-touch-icon', href: '/logo.png' }],
   ],
   serviceWorker: true, // 是否开启 PWA
-  base: '/blog/', // 部署到github相关的配置
+  base: '/VuePress/', // 部署到github相关的配置
   markdown: {
     lineNumbers: true // 代码块是否显示行号
   },
@@ -142,13 +143,122 @@ module.exports = {
   }
 }
 ```
+
+::: tip
+- base 站点的基础路径，它的值应当总是以斜杠开始，并以斜杠结束。这里设置为 /VuePress/，我们再次在本地运行项目，访问路径就需要变更为http://localhost:8080/VuePress/
+- title 网站的标题
+- description 网站的描述
+:::
+
 ### 运行项目
+
 ```
 npm run  docs:dev
 ```
-
+(如图)
 ![An image](./images/pro.png)
+
 
 ::: tip
 自此项目已成功完成了技术文档的基本模型,如需个性化的配置可通过官网按需求优化；
 :::
+
+
+## 部署
+完成上面的工作之后,当然还有最后一步,我们需要讲代码部署到服务器上,我这里介绍的是部署GitHub Pages,具体请参照文档：[Vupress-部署](https://vuepress.vuejs.org/zh/guide/deploy.html#github-pages).当然对于自己有服务器的,也可以尝试部署到自己的服务器上.
+
+### 创建github仓库
+
+- 在github上创建一个仓库,并将你的代码提交到github上.
+- 在 `docs/.vuepress/config.js` 文件中设置正确的 base。部署站点的基础路径，如果你想让你的网站部署到一个子路径下，你将需要设置它。如 GitHub pages，如果你想将你的网站部署到 `https://foo.github.io/bar/`，那么 `base` 应该被设置成 `"/bar/"`，
+
+### 自动部署
+
+> 在项目根目录中，创建一个如下的 deploy.sh 脚本文件（请自行判断去掉高亮行的注释）:
+```
+#!/usr/bin/env sh
+
+# 确保脚本抛出遇到的错误
+set -e
+
+# 生成静态文件
+npm run docs:build
+
+# 进入生成的文件夹
+cd docs/.vuepress/dist
+
+# 如果是发布到自定义域名
+# echo 'www.example.com' > CNAME
+
+git init
+git add -A
+git commit -m 'deploy'
+
+# 如果发布到 https://<USERNAME>.github.io
+# git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
+
+# 如果发布到 https://<USERNAME>.github.io/<REPO>
+# git push -f git@github.com:<USERNAME>/<REPO>.git master:gh-pages
+
+cd -
+```
+> 在依赖`package.json`文件中添加
+```
+{
+  "scripts": {
+    "deploy": "bash deploy.sh"
+  }
+}
+```
+- 双击`deploy.sh`运行脚本 或者 项目根文件夹右键 gitBash here , 然后输入bash deploy.sh,会自动部署在我们的 GitHub 仓库中`deploy.sh`文件中配置的`master:gh-pages`分支
+
+### 操作github
+- 最后, 打开github, 在 GitHub 项目点击 Setting 按钮，找到 GitHub Pages - Source，选择 gh-pages 分支，点击 Save 按钮后，静静地等待它部署完成即可。
+
+### 踩坑
+::: tip
+- 填坑
+  当我完全按照合理的配置进行了操作,但是依旧没有把项目布置到GitHub Pages上
+  ![An image](./images/404.png)
+:::
+- 挖坑:在`deploy.sh`文件中,最后push的时候有个坑`git push -f git@github.com:<USERNAME>/<REPO>.git master:gh-pages`,如果你的项目是用ssh 克隆下来的就没问题，但很不幸,我是用简单并习惯的https 克隆下来的,
+- 填坑: 配置ssh完以后重新用ssh克隆下项目，双击deploy.sh就可以自动部署了
+
+### 配置ssh
+#### 一.设置git的user name和email
+> 如果你是第一次使用，或者还没有配置过的话需要操作一下命令，自行替换相应字段。
+```
+git config --global user.name "harold1024"
+git config --global user.email  "744924498@qq.com"
+```
+#### 二.检查是否存在SSH Key
+```
+cd ~/.ssh
+ls
+//看是否存在 id_rsa 和 id_rsa.pub文件，如果存在，说明已经有SSH Key
+```
+- ls是列出所有文件，看有没有id_rsa 和 id_rsa_pub
+- 如果有跳过生成密钥这一步
+
+#### 三.生成密钥
+```
+ssh-keygen -t rsa -C "744924498@qq.com"
+```
+#### 四.获取SSH Key
+```
+cat id_rsa.pub
+//拷贝秘钥 ssh-rsa开头
+```
+#### 五.GitHub添加SSH Key
+- GitHub点击用户头像，选择setting
+- 在左侧选择 SSH and GPG keys
+- 新建一个SSH Key
+- 取个名字，把之前拷贝的秘钥复制进去，添加就好啦。
+#### 六.验证和修改
+> 测试是否成功配置SSH Key
+```
+ssh -T git@github.com
+//运行结果出现类似如下
+Hi harold1024! You've successfully authenticated, but GitHub does not provide shell access.
+```
+>在项目 `Clone or download`中即可切换`Use HTTPS`为`Use SSH`.
