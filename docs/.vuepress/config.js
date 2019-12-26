@@ -1,6 +1,6 @@
 module.exports = {
   title: 'Harold\'s blog',
-  description: '描述',
+  description: '人间烟火气,最抚凡人心',
   head: [ // 注入到当前页面的 <head> 中的标签
     ['link', { rel: 'icon', href: '/logo.png' }],
     ['link', { rel: 'manifest', href: '/logo.png' }],
