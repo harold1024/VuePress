@@ -16,6 +16,7 @@ module.exports = {
     nav:[
       {text: 'Home', link: '/' },
       {text: 'Learn', link: '/learn/' },
+      {text: 'Blog', link: '/blog/' },
       {text: 'Profile', link: '/profile/' },
       {text: 'vue', link: '/vue/' },
       {text: 'react', link: '/react/' },

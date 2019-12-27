@@ -1,10 +1,12 @@
 ---
+title: Home
 home: true
-heroImage: /logo.png
+heroImage: /home_bg.jpg
 heroText: JUST DO IT
 tagline: fighting for the life I want.
 actionText: Get Started →
 actionLink: /learn/
+layout: Home
 features:
 - title: Blogger First
   details: This framework optimizes the VuePress engine for blogging first and foremost. Includes default features like RSS feed generation, list of recent posts, etc.
