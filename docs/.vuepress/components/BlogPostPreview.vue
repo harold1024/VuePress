@@ -26,7 +26,9 @@ export default {
     <div class="blog-w">
         <section class="blog-section">
             <h3 class="blog-post__title">{{ item.frontmatter.title }}</h3>
-            <p class="blog-post__excerpt" v-if="item.frontmatter.excerpt">{{ item.frontmatter.excerpt }}</p>
+            <p class="blog-post__excerpt" v-if="item.frontmatter.excerpt">
+                <span class="blog-post__span">{{ item.frontmatter.excerpt }}</span>
+            </p>
             <p v-if="item.readingTime">Estimated time: {{ item.readingTime.text }}</p>
             <time class="blog-post__time">{{ formatPublishDate }}</time>
             <router-link class="button blog-post__button" :to="item.path">Read More ></router-link>
@@ -44,10 +46,14 @@ export default {
 	margin-top: 0.5rem;
     color: #fff;
 }
-
 .blog-post__excerpt{
+    width: 100%;
+    text-align: center;
+}
+.blog-post__span{
     color: #fff;
-    max-width: 320px;
+    /* max-width: 320px; */
+    padding: 0 1rem;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;

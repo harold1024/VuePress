@@ -112,7 +112,7 @@ export default {
       <li
         v-for="(item, index) in filteredList"
         class="blog-list__item"
-        :style="{ 'background-image': 'url(' + item.frontmatter.heroImage + ')','background-repeat':'no-repeat','background-size':'cover' }"
+        :style="{ 'background-image': 'url(/VuePress' + item.frontmatter.heroImage + ')','background-repeat':'no-repeat','background-size':'cover' }"
       >
         <BlogPostPreview
           v-show="index >= currentPage * pageSize && index < (currentPage + 1) * pageSize"
@@ -143,27 +143,28 @@ export default {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="stylus">
+@import '../theme/styles/config.styl';
 .blog-list {
   padding: 3.6rem 1rem 0;
   max-width: 1080px;
   margin: 0px auto;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  border-top: 1px solid $borderColor;
+  align-items: flex-start;
+  align-content: stretch;
+  justify-content: space-between;
 }
 
 .blog-list__item {
   list-style-type: none !important;
-  max-width: 480px;
-  min-width: 340px;
   text-align: center;
 
   border-radius: 10px;
   box-shadow: 0 15px 15px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07) !important;
   background-color: #eaeaea;
   margin-top: 20px;
-  margin-right: 18px;
 
   -webkit-filter: grayscale(100%);
   -moz-filter: grayscale(100%);
@@ -172,7 +173,32 @@ export default {
   filter: grayscale(100%);
   filter: gray;
   transition: all ease-in-out 0.5s;
+
+  flex-grow: 1;
+  flex-basis: 30%;
+  max-width: 32%;
 }
+
+
+@media (max-width: $MQMobile) {
+    .blog-list {
+      flex-direction: column;
+    }
+
+    .blog-list__item {
+      max-width: 100%;
+      padding: 0 2.5rem;
+    }
+}
+
+@media (max-width: $MQMobileNarrow) {
+    .feature {
+      h2 {
+        font-size: 1.25rem;
+      }
+  }
+}
+
 .blog-list__item:hover {
   -webkit-filter: grayscale(0);
   -moz-filter: grayscale(0);
