@@ -60,6 +60,8 @@
       </p>
     </div>
 
+    <Valine></Valine>
+
     <slot name="bottom"/>
   </div>
 </template>

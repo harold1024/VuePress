@@ -11,6 +11,14 @@ module.exports = {
   markdown: {
     lineNumbers: true // 代码块是否显示行号
   },
+  plugins: [
+    [
+      '@vuepress/register-components',
+      {
+        componentsDir: './components'
+      }
+    ]
+  ],
   themeConfig: {
     // 导航栏配置
     nav:[

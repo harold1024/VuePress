@@ -1,16 +1,13 @@
 <template>
   <div>
-    <div
+    <!-- <div
       class="home-bg"
       :style="{ 'background-image': 'url(' + $withBase(data.heroImage) + ')','background-repeat':'no-repeat','background-size':'cover' }"
-    ></div>
-    <div class="home">
+    ></div> -->
+    <div class="home-bg">
+      <video autoplay loop :src="$withBase(data.heroImage)" style="width:100%">
+      </video>
       <div class="hero">
-        <!-- <img
-        v-if="data.heroImage"
-        :src="$withBase(data.heroImage)"
-        alt="hero"
-        >-->
         <h1>{{ data.heroText || $title || 'Hello' }}</h1>
 
         <p class="description">{{ data.tagline || $description || 'Welcome to your VuePress site' }}</p>
@@ -19,7 +16,9 @@
           <NavLink class="action-button" :item="actionLink" />
         </p>
       </div>
-
+    </div>
+    
+    <div class="home">
       <div class="features" v-if="data.features && data.features.length">
         <div class="feature" v-for="(feature, index) in data.features" :key="index">
           <h2>{{ feature.title }}</h2>
@@ -59,31 +58,25 @@ export default {
 @import '../styles/config.styl';
 
 .home-bg {
+  position: relative;
   width: 100%;
-  height: 500px;
   background-attachment: fixed;
-}
-
-.home {
-  padding: $navbarHeight 2rem 0;
-  max-width: 960px;
-  margin: 0px auto;
 
   .hero {
+    position: absolute;
+    top 0
+    bottom 0
+    left 0
+    right 0
+    margin auto
     text-align: center;
 
-    img {
-      max-height: 280px;
-      display: block;
-      margin: 3rem auto 1.5rem;
-    }
-
     h1 {
-      font-size: 3rem;
+      font-size: 4rem;
     }
 
     h1, .description, .action {
-      margin: 1.8rem auto;
+      margin: 5rem auto;
     }
 
     .description {
@@ -109,6 +102,12 @@ export default {
       }
     }
   }
+}
+
+.home {
+  padding: $navbarHeight 2rem 0;
+  max-width: 960px;
+  margin: 0px auto;
 
   .features {
     border-top: 1px solid $borderColor;
@@ -161,16 +160,8 @@ export default {
 }
 
 @media (max-width: $MQMobileNarrow) {
-  .home {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-
+  .home-bg{
     .hero {
-      img {
-        max-height: 210px;
-        margin: 2rem auto 1.2rem;
-      }
-
       h1 {
         font-size: 2rem;
       }
@@ -188,6 +179,10 @@ export default {
         padding: 0.6rem 1.2rem;
       }
     }
+  }
+  .home {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
 
     .feature {
       h2 {

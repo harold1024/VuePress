@@ -1,7 +1,7 @@
 ---
 title: Home
 home: true
-heroImage: /home_bg.jpg
+heroImage: /theme.mp4
 heroText: JUST DO IT
 tagline: fighting for the life I want.
 actionText: Get Started →

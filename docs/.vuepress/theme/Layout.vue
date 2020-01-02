@@ -30,6 +30,7 @@
     </Sidebar>
 
     <Blog 
+      class="blog"
       v-if="$page.frontmatter.blog" 
       :sidebar-items="sidebarItems"
     />
@@ -44,6 +45,7 @@
     <Home v-else-if="$page.frontmatter.home"/>
 
     <Page
+      class="page"
       v-else
       :sidebar-items="sidebarItems"
     >
@@ -194,3 +196,6 @@ export default {
 
 <style src="prismjs/themes/prism-tomorrow.css"></style>
 <style src="./styles/theme.styl" lang="stylus"></style>
+<style lang="stylus" scoped>
+
+</style>

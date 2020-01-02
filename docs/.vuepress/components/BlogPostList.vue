@@ -66,7 +66,6 @@ export default {
   },
 
   mounted() {
-    console.log(this.filteredList);
     this.currentPage = Math.min(
       Math.max(this.currentPage, 0),
       this.totalPages - 1
