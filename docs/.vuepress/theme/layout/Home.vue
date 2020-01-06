@@ -5,7 +5,9 @@
       :style="{ 'background-image': 'url(' + $withBase(data.heroImage) + ')','background-repeat':'no-repeat','background-size':'cover' }"
     ></div> -->
     <div class="home-bg">
-      <video autoplay loop :src="$withBase(data.heroImage)" style="width:100%">
+      <!-- <video autoplay loop :src="$withBase(data.heroImage)" style="width:100%">
+      </video> -->
+      <video autoplay loop src="http://q3nwd38v9.bkt.clouddn.com/theme.mp4" style="width:100%">
       </video>
       <div class="hero">
         <h1>{{ data.heroText || $title || 'Hello' }}</h1>
