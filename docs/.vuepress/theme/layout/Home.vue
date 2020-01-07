@@ -3,23 +3,35 @@
     <!-- <div
       class="home-bg"
       :style="{ 'background-image': 'url(' + $withBase(data.heroImage) + ')','background-repeat':'no-repeat','background-size':'cover' }"
-    ></div> -->
+    ></div>-->
     <div class="home-bg">
       <!-- <video autoplay loop :src="$withBase(data.heroImage)" style="width:100%">
-      </video> -->
-      <video autoplay loop src="http://q3nwd38v9.bkt.clouddn.com/theme.mp4" style="width:100%">
-      </video>
+      </video>-->
+      <video
+        autoplay
+        muted
+        loop
+        src="http://q3nwd38v9.bkt.clouddn.com/theme.mp4"
+        style="width:100%"
+      ></video>
       <div class="hero">
         <h1>{{ data.heroText || $title || 'Hello' }}</h1>
 
-        <p class="description">{{ data.tagline || $description || 'Welcome to your VuePress site' }}</p>
+        <p class="description">
+          {{ data.tagline || $description || 'Welcome to my VuePressBlog site' }}
+        </p>
 
         <p class="action" v-if="data.actionText && data.actionLink">
           <NavLink class="action-button" :item="actionLink" />
         </p>
+
+        <div class="easy-typed-box">
+          {{ obj.output }}
+          <span class="easy-typed-cursor">|</span>
+        </div>
       </div>
     </div>
-    
+
     <div class="home">
       <div class="features" v-if="data.features && data.features.length">
         <div class="feature" v-for="(feature, index) in data.features" :key="index">
@@ -37,6 +49,7 @@
 
 <script>
 import NavLink from "../components/NavLink.vue";
+import EasyTyper from 'easy-typer-js'
 
 export default {
   components: { NavLink },
@@ -52,6 +65,45 @@ export default {
         text: this.data.actionText
       };
     }
+  },
+
+  data() {
+    return {
+      obj: {
+        output: '',
+        isEnd: false,
+        speed: 80,
+        singleBack: false,
+        sleep: 0,
+        type: 'roolback',
+        backSpeed: 40,
+        sentencePause: false
+      }
+    }
+  },
+  mounted() {
+    this.init()
+  },
+  methods: {
+    // 初始化
+    init() {
+      this.fetchData()
+    },
+    fetchData() {
+      // 一言Api进行打字机循环输出效果
+      fetch('https://v1.hitokoto.cn').then(res => {
+        return res.json()
+      }).then(({ hitokoto }) => {
+        this.initTyped(hitokoto)
+      }).catch(err => {
+        console.error(err)
+      })
+    },
+
+    initTyped(input, fn, hooks) {
+      const obj = this.obj
+      const typed = new EasyTyper(obj, input, fn, hooks)
+    }
   }
 };
 </script>
@@ -66,11 +118,11 @@ export default {
 
   .hero {
     position: absolute;
-    top 0
-    bottom 0
-    left 0
-    right 0
-    margin auto
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
     text-align: center;
 
     h1 {
@@ -162,7 +214,7 @@ export default {
 }
 
 @media (max-width: $MQMobileNarrow) {
-  .home-bg{
+  .home-bg {
     .hero {
       h1 {
         font-size: 2rem;
@@ -182,6 +234,7 @@ export default {
       }
     }
   }
+
   .home {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -193,4 +246,34 @@ export default {
     }
   }
 }
+
+.typed-cursor
+    margin-left: 10px
+    opacity: 1
+    -webkit-animation: blink 0.7s infinite
+    -moz-animation: blink 0.7s infinite
+    animation: blink 0.7s infinite
+  @keyframes blink
+    0%
+      opacity: 1
+    50%
+      opacity: 0
+    100%
+      opacity: 1
+  
+  @-webkit-keyframes blink
+    0%
+      opacity: 1
+    50%
+      opacity: 0
+    100%
+      opacity: 1
+  
+  @-moz-keyframes blink
+    0%
+      opacity: 1
+    50%
+      opacity: 0
+    100%
+      opacity: 1
 </style>

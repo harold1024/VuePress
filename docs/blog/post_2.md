@@ -11,4 +11,21 @@ tags:
 
 ## 《永遇乐·京口北固亭怀古》
 
-千古江山，英雄无觅，孙仲谋处。舞榭歌台，风流总被雨打风吹去。斜阳草树，寻常巷陌，人道寄奴曾住。想当年，金戈铁马，气吞万里如虎。元嘉草草，封狼居胥，赢得仓皇北顾。四十三年，望中犹记，烽火扬州路。可堪回首，佛狸祠下，一片神鸦社鼓。凭谁问，廉颇老矣，尚能饭否？
+
+关于我
+-I guess you can say that I'm shy, but I will also chat up a storm with people I've come to know better...
+你要说我比较内向，那也对，但我跟一些认识了比较久的人面前就特别地健谈。。。
+
+我是一个很宅的人,平时喜欢一个人看书消磨时光,也会看一些有深度的电影,我对新鲜的事物存在浓厚的兴趣,对技术有着探索精神,你要说我比较内向，那也对，但我跟一些认识了比较久的人面前就特别地健谈。。。
+
+
+关于能力
+我能够独立工作、思想成熟、应变能力强。能够在不同文化和工作人员的背景下出色地工作。 有较强的分析能力. 有良好的表达能力并且善于同各种人员打交道。
+
+
+
+Ability to work independently，mature and resourceful,  Able to work well in a diverse cultural and staff context.With good analytical capability.Good presentation skills and good at dealing with all kinds of people.
+
+
+关于技能
+作为前端开发工程师,我已经熟练掌握Vue.js,能够通过Vue开发项目.熟悉React.js,能够进行组件式开发,了解Webpack打包编译原理,同时掌握小程序开发
