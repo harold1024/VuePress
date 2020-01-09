@@ -8,6 +8,11 @@
       <!-- <video autoplay loop :src="$withBase(data.heroImage)" style="width:100%">
       </video>-->
       <video
+        x5-video-player-type="h5"
+        x5-video-player-fullscreen="true"
+        x5-playsinline="true"
+        playsinline="true"
+        webkit-playsinline="true" 
         autoplay
         muted
         loop
@@ -118,6 +123,7 @@ export default {
 
   .hero {
     position: absolute;
+    z-index 100;
     top: 0;
     bottom: 0;
     left: 0;
@@ -221,7 +227,7 @@ export default {
       }
 
       h1, .description, .action {
-        margin: 1.2rem auto;
+        margin: 0.8rem auto;
       }
 
       .description {
