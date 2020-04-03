@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>webpack打包原理 | Harold&#39;s blog</title>
+    <meta name="description" content="人间烟火气,最抚凡人心">
+    <link rel="icon" href="/VuePress/logo.png">
+  <link rel="manifest" href="/VuePress/logo.png">
+  <link rel="apple-touch-icon" href="/VuePress/logo.png">
+    
+    <link rel="preload" href="/VuePress/assets/css/0.styles.4954d70e.css" as="style"><link rel="preload" href="/VuePress/assets/js/app.3c1aa639.js" as="script"><link rel="preload" href="/VuePress/assets/js/6.7b05a6f5.js" as="script"><link rel="preload" href="/VuePress/assets/js/21.1e5f97bc.js" as="script"><link rel="preload" href="/VuePress/assets/js/12.43191eaa.js" as="script"><link rel="prefetch" href="/VuePress/assets/js/1.c6b2012c.js"><link rel="prefetch" href="/VuePress/assets/js/10.227187db.js"><link rel="prefetch" href="/VuePress/assets/js/11.d00d71a2.js"><link rel="prefetch" href="/VuePress/assets/js/13.a2f89c07.js"><link rel="prefetch" href="/VuePress/assets/js/14.53d5ca46.js"><link rel="prefetch" href="/VuePress/assets/js/15.eac4c502.js"><link rel="prefetch" href="/VuePress/assets/js/16.041cc5c8.js"><link rel="prefetch" href="/VuePress/assets/js/17.d2f6e6c3.js"><link rel="prefetch" href="/VuePress/assets/js/18.d73c477b.js"><link rel="prefetch" href="/VuePress/assets/js/19.706a2a6b.js"><link rel="prefetch" href="/VuePress/assets/js/2.d1967bc5.js"><link rel="prefetch" href="/VuePress/assets/js/20.29eca09d.js"><link rel="prefetch" href="/VuePress/assets/js/22.363c4394.js"><link rel="prefetch" href="/VuePress/assets/js/5.936151ce.js"><link rel="prefetch" href="/VuePress/assets/js/7.e27c6299.js"><link rel="prefetch" href="/VuePress/assets/js/8.d5034941.js"><link rel="prefetch" href="/VuePress/assets/js/9.efeadec1.js"><link rel="prefetch" href="/VuePress/assets/js/vendors~docsearch.5af29996.js">
+    <link rel="stylesheet" href="/VuePress/assets/css/0.styles.4954d70e.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar" data-v-04e2b59e><header class="navbar" data-v-04e2b59e><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/VuePress/" class="home-link router-link-active"><!----> <span class="site-name">Harold's blog</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/VuePress/" class="nav-link">Home</a></div><div class="nav-item"><a href="/VuePress/learn/" class="nav-link">Learn</a></div><div class="nav-item"><a href="/VuePress/blog/" class="nav-link router-link-active">Blog</a></div><div class="nav-item"><a href="/VuePress/profile/" class="nav-link">Profile</a></div><div class="nav-item"><a href="/VuePress/vue/" class="nav-link">vue</a></div><div class="nav-item"><a href="/VuePress/react/" class="nav-link">react</a></div> <!----></nav></div></header> <div class="sidebar-mask" data-v-04e2b59e></div> <div class="sidebar" data-v-04e2b59e><nav class="nav-links"><div class="nav-item"><a href="/VuePress/" class="nav-link">Home</a></div><div class="nav-item"><a href="/VuePress/learn/" class="nav-link">Learn</a></div><div class="nav-item"><a href="/VuePress/blog/" class="nav-link router-link-active">Blog</a></div><div class="nav-item"><a href="/VuePress/profile/" class="nav-link">Profile</a></div><div class="nav-item"><a href="/VuePress/vue/" class="nav-link">vue</a></div><div class="nav-item"><a href="/VuePress/react/" class="nav-link">react</a></div> <!----></nav>  <!----> </div> <div class="blog blog" data-v-0c4115aa data-v-04e2b59e><div class="blog__header" data-v-0c4115aa><p class="publish-date" data-v-0c4115aa><time datetime="2019-12-25T21:50:21.000Z" data-v-0c4115aa>December 26, 2019</time></p> <!----> <h1 class="blog__title" data-v-0c4115aa>webpack打包原理</h1></div> <div class="custom content__default" data-v-0c4115aa><h2 id="《念奴娇·赤壁怀古》"><a href="#《念奴娇·赤壁怀古》" class="header-anchor">#</a> 《念奴娇·赤壁怀古》</h2> <p>webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)。当 webpack 处理应用程序时，它会递归地构建一个依赖关系图(dependency graph)，其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 bundle</p> <h2 id="webpack四个核心概念"><a href="#webpack四个核心概念" class="header-anchor">#</a> webpack四个核心概念</h2> <h4 id="一-入口"><a href="#一-入口" class="header-anchor">#</a> 一 入口</h4> <p>webpack.config.js里配置</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>module.exports = {
+  entry: './src/index.js'
+};
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h4 id="二-输出"><a href="#二-输出" class="header-anchor">#</a> 二 输出</h4> <p>webpack.config.js里配置</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>const path = require('path');
+
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'main.min.js'
+  }
+};
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><h4 id="三-loader"><a href="#三-loader" class="header-anchor">#</a> 三 loader</h4> <p>webpack loader 将所有类型的文件，转换为应用程序的依赖图可以直接引用的模块</p> <h4 id="四-插件-plugins"><a href="#四-插件-plugins" class="header-anchor">#</a> 四 插件(plugins)</h4> <p>通过require()将想要使用的插件添加到plugins数组中,多数插件可以通过选项(option)自定义。你也可以在一个配置文件中因为不同目的而多次使用同一个插件，这时需要通过使用 new 操作符来创建它的一个实例。</p> <h2 id="webpack-搭建项目"><a href="#webpack-搭建项目" class="header-anchor">#</a> webpack------搭建项目</h2> <p>####1.初始化
+<code>npm init -y</code>
+安装webpack
+<code>npm i webpack_dome webpack-cli -D</code>
+####2.webpack配置
+在根目录下新建src文件夹,在src里新建index.js文件
+index.js文件</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>console.log(&quot;hello world&quot;)
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>创建并配置webpack.config.js文件
+webpack.config.js文件</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>const path = require('path');
+
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'main.min.js'
+  }
+};
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>####3.package配置
+配置 package.json 文件，在scripts中添加'build'使得运行<code>npm run build</code>可以直接执行<code>webpack</code>命令,在根目录内会生成dist文件夹,里面是对应生成的文件,
+安装<code>npm install --save-dev express webpack-dev-middleware</code>,添加'start'使得运行<code>npm run start</code>可以直接执行<code>webpack-dev-server</code>命令,
+package.json 文件</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>&quot;scripts&quot;: {
+    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;,
+    &quot;start&quot;: &quot;webpack-dev-server&quot;,
+    &quot;build&quot;: &quot;webpack&quot;
+  },
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>####4.删除旧文件
+再次打包时需要删除旧文件
+执行 <code>npm install clean-webpack-plugin --save-dev</code>命令，安装依赖。
+修改webpack.config.js文件配置</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>const CleanWebpackPlugin = require('clean-webpack-plugin')
+const path = require('path')
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'main.min.js'
+  },
+  plugins: [
+    // 默认情况下，此插件将删除 webpack output.path目录中的所有文件。
+    new CleanWebpackPlugin(),
+  ]
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>####5.文件引入html
+#####手动引入方式
+新建index.html文件,并手动引入打包后的js文件
+#####自动引入方式
+执行 <code>npm i html-webpack-plugin --save-dev</code>命令，安装依赖。
+新建index.ejs文件</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta http-equiv=&quot;Content-type&quot; content=&quot;text/html; charset=utf-8&quot;/&gt;
+    &lt;title&gt;&lt;%= htmlWebpackPlugin.options.title %&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>修改webpack.config.js文件配置</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const path = require('path')
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'main.min.js'
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      // 打包输出HTML
+      title: 'New HTML',  //打包后生成 html 的 title
+      minify: {
+        // 压缩 HTML 文件
+        removeComments: true, // 移除 HTML 中的注释
+        collapseWhitespace: true, // 删除空白符与换行符
+        minifyCSS: true // 压缩内联 css
+      },
+      filename: 'index.html', // 生成后的文件名
+      template: 'index.ejs' // 根据此模版生成 HTML 文件
+    }),
+    // 默认情况下，此插件将删除 webpack output.path目录中的所有文件。
+    new CleanWebpackPlugin(),
+  ]
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br></div></div><p>重新运行 npm run build，生成新的 dist 包，包内会生成一个新的 index.html 文件，并自动引入了 index.min.js 文件。
+####6.自动打开浏览器，支持热更新
+执行 <code>npm i open-browser-webpack-plugin webpack-dev-server --save-dev</code>命令，安装依赖。
+修改 webpack.config.js 配置</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta http-equiv=&quot;Content-type&quot; content=&quot;text/html; charset=utf-8&quot;/&gt;
+    &lt;title&gt;&lt;%= htmlWebpackPlugin.options.title %&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>修改webpack.config.js文件配置</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>const HtmlWebpackPlugin = require('html-webpack-plugin') // 自动生成 html
+const OpenBrowserPlugin = require('open-browser-webpack-plugin') // 自动打开浏览器
+const CleanWebpackPlugin = require('clean-webpack-plugin') //自动删除旧文件dist包
+const path = require('path')
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'main.min.js'
+  },
+  devServer: {
+    contentBase: './dist',
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      // 打包输出HTML
+      title: 'New HTML',  //打包后生成 html 的 title
+      minify: {
+        // 压缩 HTML 文件
+        removeComments: true, // 移除 HTML 中的注释
+        collapseWhitespace: true, // 删除空白符与换行符
+        minifyCSS: true // 压缩内联 css
+      },
+      filename: 'index.html', // 生成后的文件名
+      template: 'index.ejs' // 根据此模版生成 HTML 文件
+    }),
+   // 默认情况下，此插件将删除 webpack output.path目录中的所有文件。
+    new CleanWebpackPlugin(),
+    new OpenBrowserPlugin({ url: 'http://localhost:8099' })
+  ],
+  //编译前文件调试
+  devtool: &quot;source-map&quot;
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br></div></div></div> <div class="page-edit" data-v-0c4115aa><!----> <!----></div> <!----> <section style="border-top:2px solid #eaecef;padding-top:1rem;margin-top:2rem;" data-v-0c4115aa><div><span data-flag-title="Your Article Title" class="leancloud-visitors"><em class="post-meta-item-text">阅读量： </em> <i class="leancloud-visitors-count"></i></span></div> <h3><a href="javascript:;"></a>
+    评 论：
+  </h3> <div id="vcomments"></div></section> </div> <!----></div><div class="global-ui"></div></div>
+    <script src="/VuePress/assets/js/app.3c1aa639.js" defer></script><script src="/VuePress/assets/js/6.7b05a6f5.js" defer></script><script src="/VuePress/assets/js/21.1e5f97bc.js" defer></script><script src="/VuePress/assets/js/12.43191eaa.js" defer></script>
+  </body>
+</html>
