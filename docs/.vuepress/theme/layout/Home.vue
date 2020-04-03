@@ -16,7 +16,7 @@
         autoplay
         muted
         loop
-        src="http://q3nwd38v9.bkt.clouddn.com/theme.mp4"
+        src="http://cdn.wenlong.ink/video/theme.mp4"
         style="width:100%"
       ></video>
       <div class="hero">
